@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffdde1;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            z-index: 1;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .gif-container {
+            height: 250px; /* Keeps layout stable when GIF swaps */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .gif-container img {
+            width: 250px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #noBtn {
+            background-color: #fff;
+            color: #ff4d6d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="gif-container">
+            <img id="mainGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTU3eDhkdjE1YzRpOTcyaTBsb2N6bWZramx4aDZrenIwNXBtZDdpMCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ozc0un4foEDV8jx5N4/giphy.gif" alt="Waiting bear">
+        </div>
+        
+        <h1 id="question">Will you be my Valentine? </h1>
+
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const question = document.getElementById('question');
+        const mainGif = document.getElementById('mainGif');
+
+        // Phrases for the runaway button
+        const phrases = ["No", "Are you sure?", "Really?", "Think again!", "Kunji please", "Don't do this!"];
+        let phraseIndex = 0;
+        let yesSize = 1.2; // Initial font size in rem
+
+        // THE RUNAWAY NO BUTTON & GROWING YES BUTTON
+        noBtn.addEventListener('mouseover', () => {
+            // Move No Button
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+
+            // Change No Button Text
+            noBtn.innerText = phrases[phraseIndex];
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+
+            // Make Yes Button Bigger!
+            yesSize += 0.2;
+            yesBtn.style.fontSize = `${yesSize}rem`;
+            yesBtn.style.padding = `${15 + (yesSize * 2)}px ${35 + (yesSize * 5)}px`;
+        });
+
+        // THE SUCCESS STATE
+        yesBtn.addEventListener('click', () => {
+            question.innerText = "YAY! I knew it Kunji! \n Happy Propose Day!❤️";
+            
+            // SUCCESS GIF (Happy/Celebration)
+            mainGif.src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3g0ZzNqYnd3OHZpM2R6ZzR5Z3R6ZzR5Z3R6ZzR5Z3R6ZzR5ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif"; 
+
+            // Final Layout Cleanup
+            noBtn.style.display = 'none';
+            yesBtn.style.fontSize = "1.5rem";
+            yesBtn.style.padding = "15px 35px";
+
+            // Confetti Blast
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758f', '#ffb3c1']
+            });
+        });
+    </script>
+</body>
+</html>
